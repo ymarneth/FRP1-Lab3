@@ -2,13 +2,32 @@ package monads
 
 import expr.*
 
-import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success, Try}
-
 object ExprEvalSet {
 
   def eval(expr: Expr, bds: Map[String, Set[Double]]): Set[Double] =
-    ???
+    expr match {
+      case Lit(v) => Set(v)
+      case Var(n) => if bds.contains(n) then bds(n) else Set.empty
+      case Add(l, r) =>
+        for {
+          lv <- eval(l, bds)
+          rv <- eval(r, bds)
+        } yield lv + rv
+      case Mult(l, r) =>
+        for {
+          lv <- eval(l, bds)
+          rv <- eval(r, bds)
+        } yield lv * rv
+      case Min(s) =>
+        for {
+          sr <- eval(s, bds)
+        } yield -sr
+      case Rec(s) =>
+        for {
+          sr <- eval(s, bds)
+          r <- if sr == 0.0 then Set.empty else Set(1.0 / sr)
+        } yield r
+    }
 
   def main(args: Array[String]): Unit = {
 

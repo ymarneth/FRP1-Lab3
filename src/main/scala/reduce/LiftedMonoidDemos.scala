@@ -27,7 +27,7 @@ object LiftedMonoidDemos {
       )
 
     println(coursesTaken)
-    val mapMonoid : Monoid[Map[String, Set[Course]]] = Monoid.mapMonoid(using Monoid.setMonoid)
+    val mapMonoid : Monoid[Map[String, Set[Course]]] = Monoid.mapMonoid(using Monoid.setMonoid())
     val reducible =  Reducible.apply(coursesTaken)
     val allCoursesTaken = reducible.reduce(using mapMonoid)
     println(allCoursesTaken)
