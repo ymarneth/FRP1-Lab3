@@ -13,12 +13,12 @@ object ExprEvalMain {
     var line = scn.nextLine().trim
     while (!line.startsWith(".")) {
       parseExpr(line) match {
-        case Success(expr, _) => {
+        case Success(expr, _) =>
           println(s"$expr = ${eval(expr, bds)}")
-        }
-        case Failure(m, r) => {
+        case Failure(m, r) =>
           println("Failed parse " + m)
-        }
+        case monads.ExprParser.Error(_, _) =>
+          println("Error")
       }
       print("Input expr: ")
       line = scn.nextLine().trim
