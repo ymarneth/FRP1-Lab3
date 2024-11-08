@@ -5,9 +5,18 @@ import Gen.*
 object GenTests {
 
   def main(args: Array[String]): Unit = {
+    // ints.flatMap(i1 => ints.map(i2 => (i1, i2)))
+    val pairGen =
+      for {
+        i1 <- ints
+        i2 <- ints
+      } yield (i1, i2)
+
+    val rp = pairGen(574934312343L)
+    println(rp)
 
     // TODO: Task 8.4.a) Generator of list of 10 Int values from 0 to 100
-    val b10: Gen[List[Boolean]] = ???
+    val b10: Gen[List[Boolean]] = booleans(0.5).lists(10)
     val (bs, _) = b10(3293)
     for (b <- bs) println(b)
     println
@@ -19,7 +28,7 @@ object GenTests {
     println
 
     // TODO: Task 8.4.c) Generator for list with 10 lists with lenght between 2 and 10 of integers from 0 to 100
-    val nIntListLists:  Gen[List[List[Int]]] = ???
+    val nIntListLists: Gen[List[List[Int]]] = ???
     val (r1, _) = nIntListLists(34243)
     for (l <- r1)
       println(l)
