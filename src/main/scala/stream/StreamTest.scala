@@ -6,8 +6,9 @@ object StreamTest extends App {
 
   // TODO:  Task 9.4.a) Use iterate for defining an infinite stream of positive integers,
   //    filter out odd values, map them to their square and print out the first 10.
-  val intsFrom1: Stream[Int] = ???
-  // TODO
+  val intsFrom1: Stream[Int] = iterate(1, i => i + 1)
+  println(intsFrom1.headOption)
+  println(intsFrom1.tailOption.get.headOption)
   println
 
   // TODO:  Task 9.4.b)	Use iterate for defining an infinite stream of powers of 2 starting by 2.

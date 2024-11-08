@@ -28,7 +28,10 @@ trait Gen[A] extends (Long => (A, Long)) {
     intsFromTo(minLen, maxLen).flatMap(len => lists(len))
 
   // TODO: Task 9.5
-  def stream(seed: Long): Stream[A] = ???
+  def stream(seed: Long): Stream[A] = {
+    val (a, newSeed) = this(seed)
+    Cons(() => a, () => stream(newSeed))
+  }
 
   def stream: Stream[A] = stream(System.currentTimeMillis())
 }
