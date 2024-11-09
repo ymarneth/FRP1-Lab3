@@ -15,8 +15,7 @@ object ExprEvalOption {
         for {
           lv <- eval(l, bds)
           rv <- eval(r, bds)
-          r <- Some(lv + rv)
-        } yield r
+        } yield lv + rv
       case Mult(l, r) =>
         for {
           lv <- eval(l, bds)

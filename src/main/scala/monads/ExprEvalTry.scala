@@ -1,17 +1,38 @@
 package monads
 
-import expr.{Rec, Var, *}
+import expr.*
 
 import scala.collection.immutable.Map
-import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
 object ExprEvalTry {
 
   def eval(expr: Expr, bds: Map[String, Double]): Try[Double] =
-    ???
+    expr match {
+      case Lit(v) => Success(v)
+      case Var(n) => if bds.contains(n) then Success(bds(n)) else Failure(new Exception(s"Var $n not found"))
+      case Add(l, r) =>
+        for {
+          lv <- eval(l, bds)
+          rv <- eval(r, bds)
+        } yield lv + rv
+      case Mult(l, r) =>
+        for {
+          lv <- eval(l, bds)
+          rv <- eval(r, bds)
+        } yield lv * rv
+      case Min(s) =>
+        for {
+          sr <- eval(s, bds)
+        } yield -sr
+      case Rec(s) =>
+        for {
+          sr <- eval(s, bds)
+          r <- if sr == 0.0 then Failure(new Exception("Division by zero")) else Success(1.0 / sr)
+        } yield r
+    }
 
-  def main(args: Array[String]) : Unit = {
+  def main(args: Array[String]): Unit = {
 
     val bds = Map("x" -> 3.0, "y" -> 4.0, "z" -> 0.0)
 
@@ -26,7 +47,6 @@ object ExprEvalTry {
     val expr3 = Mult(Var("x"), Rec(Var("u"))) // x * (1 / u)
     val r3 = eval(expr3, bds)
     println(s"$expr3 = $r3")
-
   }
 
 }

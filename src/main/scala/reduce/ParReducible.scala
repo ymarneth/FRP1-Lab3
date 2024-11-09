@@ -26,7 +26,7 @@ object ParReducible {
   def apply[A](as: Iterable[A]) : ParReducible[A] =
     new ParReducible[A] {
 
-      def size = as.size
+      def size: Int = as.size
 
       def split: (ParReducible[A], ParReducible[A]) = ???
 
@@ -44,7 +44,7 @@ object ParReduceDemo {
 
     val ns = (1 to 100).toList
 
-   val parReducible : ParReducible[Int] = ParReducible(ns)
+    val parReducible : ParReducible[Int] = ParReducible(ns)
 
     val sump = parReducible.parReduceMap( i => i )(using Monoid.intPlusMonoid)
     println(s"sump = $sump")
