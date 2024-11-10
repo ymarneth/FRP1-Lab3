@@ -47,7 +47,7 @@ object Gen {
   }
 
   // Task 8.1: Random number generators
-  private val posInts: Gen[Int] = ints.map(i => i.abs)
+  val posInts: Gen[Int] = ints.map(i => i.abs)
 
   def intsFromTo(from: Int, to: Int): Gen[Int] =
     doubles.map(d => from + (d * (to - from)).toInt)
