@@ -1,7 +1,6 @@
 package stream
 
 import rand.Gen
-import rand.Gen.{booleans, intsFromTo, intsTo, valuesOf, words}
 
 object GenStreamTest {
 
