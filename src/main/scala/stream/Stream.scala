@@ -18,7 +18,6 @@ sealed trait Stream[+A] {
         if (n == 0) Empty
         else Stream(headFn(), tailFn().take(n - 1))
 
-
   def filter(pred: A => Boolean): Stream[A] =
     this match
       case Empty => Empty
