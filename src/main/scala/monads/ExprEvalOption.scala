@@ -15,8 +15,7 @@ object ExprEvalOption {
         for {
           lv <- eval(l, bds)
           rv <- eval(r, bds)
-          r <- Some(lv + rv)
-        } yield r
+        } yield lv + rv
       case Mult(l, r) =>
         for {
           lv <- eval(l, bds)
@@ -36,6 +35,10 @@ object ExprEvalOption {
   def main(args: Array[String]): Unit = {
 
     val bds = Map("x" -> 3.0, "y" -> 4.0, "z" -> 0.0)
+
+    println("\n===================================================================================================")
+    println("     Task 7.1 - Expression Evaluator with Option Monad")
+    println("===================================================================================================\n")
 
     val expr1 = Mult(Var("x"), Rec(Var("y"))) // x * (1 / y)
     val r1 = eval(expr1, bds)

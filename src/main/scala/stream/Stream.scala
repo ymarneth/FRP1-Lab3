@@ -1,30 +1,40 @@
 package stream
 
-import reduce._
-import reduce.Monoid
+import reduce.*
 
 sealed trait Stream[+A] {
   val isEmpty: Boolean
 
-  // TODO: Task 9.2: Lazy methods in trait Stream
+  // Task 9.2: Lazy methods in trait Stream
   def map[B](mapper: A => B): Stream[B] =
     this match
       case Empty => Empty
       case Cons(headFn, tailFn) => Stream(mapper(headFn()), tailFn().map(mapper))
 
-  def take(n: Int): Stream[A] = this match
-    case Empty => Empty
-    case Cons(headFn, tailFn) =>
-      if (n == 0) Empty
-      else Stream(headFn(), tailFn().take(n - 1))
+  def take(n: Int): Stream[A] =
+    this match
+      case Empty => Empty
+      case Cons(headFn, tailFn) =>
+        if (n == 0) Empty
+        else Stream(headFn(), tailFn().take(n - 1))
 
+  def filter(pred: A => Boolean): Stream[A] =
+    this match
+      case Empty => Empty
+      case Cons(headFn, tailFn) =>
+        if pred(headFn()) then Stream(headFn(), tailFn().filter(pred))
+        else tailFn().filter(pred)
 
-  def filter(pred: A => Boolean): Stream[A] = ???
+  // Task 9.3: Methods in trait Stream returning results
+  def head: A =
+    this match
+      case Empty => throw new NoSuchElementException("head of empty stream")
+      case Cons(headFn, _) => headFn()
 
-  // TODO: Task 9.3: Methods in trait Stream returning results
-  def head: A = ???
-
-  def tail: Stream[A] = ???
+  def tail: Stream[A] =
+    this match
+      case Empty => throw new UnsupportedOperationException("tail of empty stream")
+      case Cons(_, tailFn) => tailFn()
 
   def headOption: Option[A] =
     this match
@@ -48,10 +58,15 @@ sealed trait Stream[+A] {
       case Empty => Nil
       case Cons(headFn, tailFn) => headFn() :: tailFn().toList
 
-  def reduceMap[R](mapper: A => R)(using monoid: Monoid[R]): R = ???
+  def reduceMap[R](mapper: A => R)(using monoid: Monoid[R]): R =
+    this match
+      case Empty => monoid.zero
+      case Cons(headFn, tailFn) => monoid.op(mapper(headFn()), tailFn().reduceMap(mapper))
 
-  def count: Long = ???
-
+  def count: Long =
+    this match
+      case Empty => 0
+      case Cons(_, tailFn) => 1 + tailFn().count
 }
 
 case object Empty extends Stream[Nothing] {

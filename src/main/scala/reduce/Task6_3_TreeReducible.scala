@@ -6,7 +6,6 @@ object Task6_3_TreeReducible {
 
   def main(args: Array[String]): Unit = {
 
-    import Monoid.*
     import tree.BinTree.*
 
     val nameTree : BinTree[String] =
@@ -27,21 +26,27 @@ object Task6_3_TreeReducible {
 
     val namesReducible = Reducible(nameTree)
 
+    println("\n===================================================================================================")
+    println("     Task 6.3 - TreeReducible     ")
+    println("===================================================================================================\n")
+
+    println("Tree of names: " + nameTree)
+
     //a) count the elements
-    val n = ???
+    val n = namesReducible.count
     println(s"Number elements = $n")
 
     //b) concatenate the elements to a single string
-    val one = ???
+    val one = namesReducible.reduce
     println(s"Concatenated = $one")
 
     //c) compute length of all strings
-    val length = ???
+    val length = namesReducible.sum(_.length)
     println(s"Length of elements = $length")
 
     //d) create a set of the elements
-    val setOfNames = ???
-    println(s"Set of elements = $setOfNames")
+    val setOfNames = namesReducible.asSet
+    println(s"Set of elements = ${setOfNames.mkString(", ")}")
   }
 
 }

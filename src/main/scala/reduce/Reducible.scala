@@ -8,13 +8,13 @@ trait Reducible[A] {
 
   def reduce(using monoid: Monoid[A]): A = reduceMap(a => a)
 
-  def asList: List[A] = ???
+  def asList: List[A] = reduceMap(List(_)) (using listMonoid)
 
-  def asSet: Set[A] = ???
+  def asSet: Set[A] = reduceMap(Set(_)) (using setMonoid())
 
   def count: Int = reduceMap(_ => 1)
 
-  def sum(fn: A => Int): Int = ???
+  def sum(fn: A => Int): Int = reduceMap(fn)
 }
 
 object Reducible {
