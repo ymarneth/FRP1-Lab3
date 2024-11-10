@@ -33,6 +33,10 @@ object ExprEvalSet {
 
     val bds = Map("x" -> Set(3.0), "y" -> Set(2.0, 3.0))
 
+    println("\n===================================================================================================")
+    println("     Task 7.3 - Expression Evaluator with Set Monad")
+    println("===================================================================================================\n")
+
     val expr1 = Mult(Var("x"), Rec(Var("y"))) // x * (1 / y)
     val r1 = eval(expr1, bds)
     println(s"$expr1 = $r1")
