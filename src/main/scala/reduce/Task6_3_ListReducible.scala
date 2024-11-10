@@ -10,9 +10,15 @@ object Task6_3_ListReducible {
     val namesReducible = Reducible(names)
 
     // === Task 6.3 ====================
+    println("\n===================================================================================================")
+    println("     Task 6.3 - ListReducible     ")
+    println("===================================================================================================\n")
+
+    println("List of names: " + names.mkString(", "))
+    println
 
     //a) count the elements
-    val n = namesReducible.reduceMap(_ => 1)
+    val n = namesReducible.count
     println(s"Number elements = $n")
 
     //b) concatenate the elements to a single string
@@ -20,12 +26,12 @@ object Task6_3_ListReducible {
     println(s"Concatenated = $one")
 
     //c) compute length of all strings
-    val length = namesReducible.reduceMap(_.length)
+    val length = namesReducible.sum(_.length)
     println(s"Length of elements = $length")
 
     //d) create a set of the elements
     val setOfNames = namesReducible.reduceMap(name => Set(name))(using setMonoid[String]())
-    println(s"Set of elements = $setOfNames")
+    println(s"Set of elements = ${setOfNames.mkString(", ")}")
   }
 
 }

@@ -27,6 +27,12 @@ object Task6_2_TreeReducible {
 
     val namesReducible = Reducible(nameTree)
 
+    println("\n===================================================================================================")
+    println("     Task 6.2 - TreeReducible     ")
+    println("===================================================================================================\n")
+
+    println("Tree of names: " + nameTree)
+
     //a) count the elements
     val n = namesReducible.reduceMap(_ => 1)
     println(s"Number elements = $n")
@@ -41,7 +47,7 @@ object Task6_2_TreeReducible {
 
     //d) create a set of the elements
     val setOfNames = namesReducible.reduceMap(name => Set(name))(using setMonoid[String]())
-    println(s"Set of elements = $setOfNames")
+    println(s"Set of elements = ${setOfNames.mkString(", ")}")
   }
 
 }
